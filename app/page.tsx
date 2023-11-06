@@ -1,9 +1,7 @@
 import { sql } from "@vercel/postgres";
 
 export default async function Home() {
-  const { rows, fields } = await sql`SELECT * FROM pets`;
-
-  console.log(rows);
+  const { rows } = await sql`SELECT * FROM pets`;
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -9,6 +10,7 @@ export async function GET(request: Request) {
   try {
     if (!petName || !ownerName) throw new Error("Pet and owner names required");
     await sql`INSERT INTO Pets (Name, Owner) VALUES (${petName}, ${ownerName});`;
+    revalidatePath("/", "layout");
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
